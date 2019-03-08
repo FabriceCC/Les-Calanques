@@ -10,37 +10,56 @@ import UIKit
 
 class TableViewIntegreeController: UITableViewController {
 
+    var calanques: [Calanque] = []
+    var cellID = "CalanqueCell"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        calanques = CalanqueCollection().all()
+        tableView.backgroundColor = UIColor.clear
+        let bg = UIImageView(frame: view.bounds)
+        bg.image = calanques[0].image
+        bg.contentMode = .scaleAspectFill
+        tableView.backgroundView = bg
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        // Nombre de sections
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        // number of rows = Nombre de lignes
+        return calanques.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as? CalanquesCell {
+            cell.setupCell(calanques[indexPath.row])
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+            
+            // Configure the cell...
+            let calanque = calanques[indexPath.row]
+            cell.textLabel?.text = calanque.nom
+            cell.imageView?.image = calanque.image
+            
+            
+            return cell        }
+        
     }
-    */
+    
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
